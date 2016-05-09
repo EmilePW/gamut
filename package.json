@@ -19,5 +19,8 @@
   "keywords": [
     "colour",
     "color"
-  ]
+  ],
+  "dependencies": {
+    "css-color-list": "0.0.1"
+  }
 }
