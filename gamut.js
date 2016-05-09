@@ -21,9 +21,9 @@ function partitionStrToArray(str, num) {
 }
 
 // Exported object
-module.exports = {
+var gamut = module.exports = {
 	hexToDenary: {
-		// List of hexagonal to denary conversion
+		// Dictionary for hexadecimal to denary conversion
 		0: 0,
 		1: 1,
 		2: 2,
@@ -43,6 +43,7 @@ module.exports = {
 	},
 
 	denaryToHex: {
+		// Dictionary for denary to hexadecimal conversion
 		0: 0,
 		1: 1,
 		2: 2,
@@ -70,9 +71,9 @@ module.exports = {
 	areAllCharactersHexadecimal: function (str) {
 		str = str.split('');
 		for (var i = 0; i < str.length; i++) {
-			if (!this.isValidHexadecimalCharacter(str[i])) {
+			if (!gamut.isValidHexadecimalCharacter(str[i])) {
 				return false;
-			} 
+			}
 		}
 
 		return true;
@@ -89,7 +90,7 @@ module.exports = {
 			str = str.concat(str);
 		}
 
-		if (str.length !== 6 || !this.areAllCharactersHexadecimal(str)) {
+		if (str.length !== 6 || !gamut.areAllCharactersHexadecimal(str)) {
 			return false;
 		}
 		else {
@@ -98,14 +99,13 @@ module.exports = {
 	},
 
 	convertHexToRGB: function (str) {
-		var objScope = this;
-		if (this.isValidHexadecimal(str)) {
+		if (gamut.isValidHexadecimal(str)) {
 			var hex = partitionStrToArray(str, 2);
 
 			var rgb = hex.map(function(charPair, i) {
 				charPair = charPair.split('');
 
-				return objScope.hexLookup[charPair[0]] * 16 + objScope.hexLookup[charPair[1]];
+				return gamut.hexToDenary[charPair[0]] * 16 + gamut.hexToDenary[charPair[1]];
 			});
 
 			return rgb;
@@ -125,16 +125,48 @@ module.exports = {
 	},
 
 	convertRGBToHex: function(arr) {
-		if (!this.isValidRGB(arr)) {
+		if (!gamut.isValidRGB(arr)) {
 			return false;
 		}
 
-		var objScope = this;
 		arr = arr.map(function(num) {
-			return objScope.denaryToHex[Math.floor(num / 16)].toString() + objScope.denaryToHex[num % 16].toString(); 
+			return gamut.denaryToHex[Math.floor(num / 16)].toString() + gamut.denaryToHex[num % 16].toString(); 
 		});
 
 		return arr.join('');
+	},
+
+	generateRandomRGB: function() {
+		var rgb = [];
+
+		for (var i = 0; i < 3; i++) {
+			rgb.push(Math.floor( Math.random() * 256 ));
+		}
+
+		return rgb;
+	},
+
+	generateRandomHexadecimal: function() {
+		var hex = [];
+
+		for (var i = 0; i < 6; i++) {
+			hex.push(gamut.denaryToHex[Math.floor(Math.random() * 16)].toString());
+		}
+
+		return hex.join('');
+	},
+
+	generateRandomColourScheme: function(numColours) {
+		// Choose 5 colours if number not specified
+		numColours = typeof numColours !== 'undefined' ? numColours : 5;
+		
+		var colourScheme = [];
+
+		// Output hexadecimal format by default
+		for (var i = 0; i < numColours; i++) {
+			colourScheme.push(gamut.generateRandomHexadecimal());
+		}
+
+		return colourScheme;
 	}
 };
-
