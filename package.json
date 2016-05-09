@@ -1,0 +1,23 @@
+{
+  "name": "gamut",
+  "version": "1.0.0",
+  "description": "Module for operations on colours",
+  "main": "gamut.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmilePW/gamut.git"
+  },
+  "author": "Emile Paffard-Wray",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmilePW/gamut/issues"
+  },
+  "homepage": "https://github.com/EmilePW/gamut#readme",
+  "keywords": [
+    "colour",
+    "color"
+  ]
+}
