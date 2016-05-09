@@ -116,7 +116,7 @@ var gamut = module.exports = {
 	},
 
 	isValidRGB: function(arr) {
-		if (arr.length !== 3 || (Number.isInteger(arr[0]) && 0 <= arr[0] && arr[0] <= 255) || (Number.isInteger(arr[1]) && 0 <= arr[1] && arr[1] <= 255) || (Number.isInteger(arr[2]) && 0 <= arr[2] && arr[2] <= 255)) {
+		if (arr.length !== 3 || !(Number.isInteger(arr[0]) && 0 <= arr[0] && arr[0] <= 255) || !(Number.isInteger(arr[1]) && 0 <= arr[1] && arr[1] <= 255) || !(Number.isInteger(arr[2]) && 0 <= arr[2] && arr[2] <= 255)) {
 			return false;
 		}
 		else {
@@ -168,5 +168,29 @@ var gamut = module.exports = {
 		}
 
 		return colourScheme;
+	},
+
+	getOppositeColour: function(colour) {
+		// Convert to RGB to make maths more simple
+		// Return value is same format as input
+		if (gamut.isValidHexadecimal(colour)) {
+			colour = gamut.convertHexToRGB(colour);
+
+			var oppositeColour = colour.map(function(component) {
+				return Math.floor(255 - component);
+			});
+
+			return gamut.convertRGBToHex(oppositeColour);
+		}
+		else if (gamut.isValidRGB(colour)) {
+			return colour.map(function(component) {
+				return 255 - component;
+			});
+		}
+		else {
+			return false;
+		}
 	}
 };
+
+console.log( gamut.getOppositeColour('AAFFBB') );
